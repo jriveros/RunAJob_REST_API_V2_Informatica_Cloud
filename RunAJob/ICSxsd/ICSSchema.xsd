@@ -1,0 +1,1758 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--
+    ===========================================================================
+      Resource:         salesforceVersion
+      Method:           GET
+      Response Body:    salesforceVersion
+      URI:              /api/v2/server/salesforceVersion
+    ===========================================================================
+  -->
+  <xs:complexType name="salesforceVersion">
+    <xs:sequence>
+      <xs:element name="versionNo" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <!--
+    ===========================================================================
+      Resource:         serverTime
+      Method:           GET
+      Response Body:    serverTime
+      URI:              /api/v2/server/serverTime
+    ===========================================================================
+  -->
+  <xs:complexType name="serverTime">
+    <xs:sequence>
+      <xs:element name="time" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--
+    ===========================================================================
+      Resource:         error
+      Method:           GET, POST, DELETE
+      Response Body:    error
+      URI:              *
+    ===========================================================================
+  -->
+  <xs:complexType name="error">
+    <xs:sequence>
+      <xs:element name="code" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="statusCode" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--
+    ===========================================================================
+      Resource:         login
+      Method:           POST
+      Request Body:     login
+                            username, password
+      Response Body:    user
+      URI:              /api/v2/user/login
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         loginSf
+      Method:           POST
+      Request Body:     login
+                            sfSessionId, sfServerUrl
+      Response Body:    user
+      URI:              /api/v2/user/loginSf
+    ===========================================================================
+  -->
+  <xs:complexType name="login">
+    <xs:sequence>
+      <xs:element name="username" type="xs:string" nillable="true"/>
+      <xs:element name="password" type="xs:string" nillable="true"/>
+      <xs:element name="sfSessionId" type="xs:string" nillable="true"/>
+      <xs:element name="sfServerUrl" type="xs:string" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--
+    ===========================================================================
+      Resource:         register
+      Method:           POST
+      Request Body:     registration
+                            org
+                                offerCode, name, employees, address1, address2(optional), 
+                                address3(optional), city, state(required for United States),
+                                zipcode, country
+                            user
+                                name, password, firstName, lastName, 
+                                title, phone, emails, timeZone(optional)
+                            registrationCode (optional)
+      Response Body:    user
+      URI:              /api/v2/user/register
+    ===========================================================================
+  -->
+  <xs:complexType name="registration">
+    <xs:sequence>
+      <xs:element name="org" type="org"/>
+      <xs:element name="user" type="user"/>
+      <xs:element name="registrationCode" type="xs:string" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!--
+    ===========================================================================
+      Resource:         registerSf
+      Method:           POST
+      Request Body:     registrationSf
+                            offerCode, sfSessionId, sfServerUrl, registrationCode (optional)
+      Response Body:    user
+      URI:              /api/v2/user/registerSf
+    ===========================================================================
+  -->
+  <xs:complexType name="registrationSf">
+    <xs:sequence>
+      <xs:element name="sfSessionId" type="xs:string"/>
+      <xs:element name="sfServerUrl" type="xs:string"/>
+      <xs:element name="offerCode" type="xs:string"/>
+      <xs:element name="registrationCode" type="xs:string" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!--
+    ===========================================================================
+      Resource:         user
+      Method:           GET
+      Response Body:    user
+      URI:              /api/v2/user
+                            ===OR===
+                        /api/v2/user/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         user
+      Method:           POST
+      Request Body:     user
+                            name, sfUsername(optional), password, 
+                            firstName, lastName, title, phone(optional), emails(optional),
+                            description(optional), timeZone(optional)
+      Response Body:    user
+      URI:              /api/v2/user
+                            ===OR===
+                        /api/v2/user/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         user
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/user/{id}
+    ===========================================================================
+  -->
+  <xs:complexType name="user">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="sfUsername" type="xs:string" nillable="true"/>
+      <xs:element name="password" type="xs:string"/>
+      <xs:element name="firstName" type="xs:string"/>
+      <xs:element name="lastName" type="xs:string"/>
+      <xs:element name="title" type="xs:string" nillable="true"/>
+      <xs:element name="phone" type="xs:string" nillable="true"/>
+      <xs:element name="emails" type="xs:string" nillable="true"/>
+      <xs:element name="timezone" type="TimezoneType"/>
+      <xs:element name="type" type="ConnectionType"/>
+      <xs:element name="serverUrl" type="xs:string" nillable="true"/>
+      <xs:element name="icSessionId" type="xs:string" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="TimezoneType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Pacific/Apia" />
+      <xs:enumeration value="Pacific/Tahiti" />
+      <xs:enumeration value="HST" />
+      <xs:enumeration value="Pacific/Gambier" />
+      <xs:enumeration value="AST" />
+      <xs:enumeration value="America/Vancouver" />
+      <xs:enumeration value="America/Tijuana" />
+      <xs:enumeration value="America/Los_Angeles" />
+      <xs:enumeration value="America/Phoenix" />
+      <xs:enumeration value="America/Dawson_Creek" />
+      <xs:enumeration value="America/Denver" />
+      <xs:enumeration value="America/El_Salvador" />
+      <xs:enumeration value="America/Costa_Rica" />
+      <xs:enumeration value="America/Mexico_City" />
+      <xs:enumeration value="America/Chicago" />
+      <xs:enumeration value="America/Jamaica" />
+      <xs:enumeration value="America/Panama" />
+      <xs:enumeration value="America/Montreal" />
+      <xs:enumeration value="America/Havana" />
+      <xs:enumeration value="America/New_York" />
+      <xs:enumeration value="America/Barbados" />
+      <xs:enumeration value="America/Dominica" />
+      <xs:enumeration value="America/Guadeloupe" />
+      <xs:enumeration value="America/Puerto_Rico" />
+      <xs:enumeration value="America/Halifax" />
+      <xs:enumeration value="CNT" />
+      <xs:enumeration value="America/Buenos_Aires" />
+      <xs:enumeration value="Atlantic/South_Georgia" />
+      <xs:enumeration value="Atlantic/Cape_Verde" />
+      <xs:enumeration value="Africa/Casablanca" />
+      <xs:enumeration value="GMT" />
+      <xs:enumeration value="Europe/London" />
+      <xs:enumeration value="Europe/Vienna" />
+      <xs:enumeration value="Europe/Brussels" />
+      <xs:enumeration value="Europe/Zurich" />
+      <xs:enumeration value="Europe/Prague" />
+      <xs:enumeration value="Europe/Berlin" />
+      <xs:enumeration value="Europe/Copenhagen" />
+      <xs:enumeration value="Europe/Madrid" />
+      <xs:enumeration value="Europe/Budapest" />
+      <xs:enumeration value="Europe/Rome" />
+      <xs:enumeration value="Europe/Luxembourg" />
+      <xs:enumeration value="Europe/Amsterdam" />
+      <xs:enumeration value="Europe/Warsaw" />
+      <xs:enumeration value="Europe/Stockholm" />
+      <xs:enumeration value="Europe/Belgrade" />
+      <xs:enumeration value="Europe/Paris" />
+      <xs:enumeration value="Africa/Johannesburg" />
+      <xs:enumeration value="Africa/Cairo" />
+      <xs:enumeration value="Europe/Athens" />
+      <xs:enumeration value="Asia/Jerusalem" />
+      <xs:enumeration value="Europe/Bucharest" />
+      <xs:enumeration value="Europe/Istanbul" />
+      <xs:enumeration value="Asia/Bahrain" />
+      <xs:enumeration value="Africa/Nairobi" />
+      <xs:enumeration value="Asia/Kuwait" />
+      <xs:enumeration value="Asia/Qatar" />
+      <xs:enumeration value="Asia/Riyadh" />
+      <xs:enumeration value="Asia/Baghdad" />
+      <xs:enumeration value="Europe/Moscow" />
+      <xs:enumeration value="Asia/Dubai" />
+      <xs:enumeration value="Indian/Mauritius" />
+      <xs:enumeration value="Asia/Muscat" />
+      <xs:enumeration value="Asia/Karachi" />
+      <xs:enumeration value="IST" />
+      <xs:enumeration value="Asia/Katmandu" />
+      <xs:enumeration value="BST" />
+      <xs:enumeration value="Asia/Rangoon" />
+      <xs:enumeration value="VST" />
+      <xs:enumeration value="Australia/Perth" />
+      <xs:enumeration value="Asia/Hong_Kong" />
+      <xs:enumeration value="Asia/Kuala_Lumpur" />
+      <xs:enumeration value="Asia/Singapore" />
+      <xs:enumeration value="CTT" />
+      <xs:enumeration value="Asia/Seoul" />
+      <xs:enumeration value="JST" />
+      <xs:enumeration value="ACT" />
+      <xs:enumeration value="AET" />
+      <xs:enumeration value="Australia/Lord_Howe" />
+      <xs:enumeration value="Asia/Magadan" />
+      <xs:enumeration value="Pacific/Norfolk" />
+      <xs:enumeration value="Pacific/Fiji" />
+      <xs:enumeration value="Pacific/Chatham" />
+      <xs:enumeration value="Pacific/Enderbury" />
+      <xs:enumeration value="Pacific/Kiritimati" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!--
+    ===========================================================================
+      Resource:         org
+      Method:           GET
+      Response Body:    org
+      URI:              /api/v2/org
+                            ===OR===
+                        /api/v2/org/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         org
+      Method:           POST
+      Request Body:     org
+                            name, address1, address2(optional), address3(optional), 
+                            city, state, zipcode, country, description(optional),
+                            successEmails (optional), warningEmails (optional),
+							errorEmails (optional), employees
+      URI:              /api/v2/org
+                            ===OR===
+                        /api/v2/org/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         org
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/org/{id}
+    ===========================================================================
+  -->
+  <xs:complexType name="org">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="address1" type="xs:string"/>
+      <xs:element name="address2" type="xs:string" nillable="true"/>
+      <xs:element name="address3" type="xs:string" nillable="true"/>
+      <xs:element name="employees" type="xs:string"/>
+      <xs:element name="offerCode" type="xs:string"/>
+      <xs:element name="city" type="xs:string"/>
+      <xs:element name="country" type="xs:string"/>
+      <xs:element name="state" type="xs:string"/>
+      <xs:element name="zipcode" type="xs:string"/>
+      <xs:element name="successEmails" type="xs:string"/>
+      <xs:element name="warningEmails" type="xs:string"/>
+      <xs:element name="errorEmails" type="xs:string"/>
+      <xs:element name="campaignCode" type="xs:string"/>
+      <xs:element name="atlasProjectId" type="xs:string"/>
+      <xs:element name="zuoraAccountId" type="xs:string"/>
+      <xs:element name="devOrg" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="maxLogRows" type="xs:int"/>
+      <xs:element name="minPasswordLength" type="xs:int"/>
+      <xs:element name="minPasswordCharMix" type="xs:int"/>
+      <xs:element name="passwordReuseInDays" type="xs:int"/>
+      <xs:element name="passwordExpirationInDays" type="xs:int"/>
+      <xs:element name="subOrgLimit" type="xs:int"/>
+      <xs:element name="parentOrgId" type="xs:string"/>
+      <xs:element name="jobExecUserProfile" type="xs:string"/>
+      <xs:element name="subOrgs" type="subOrg" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="twoFactorAuthentication" type="xs:string"/>
+      <xs:element name="ipAddressRanges" type="ipAddressRange" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="StateCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AL" />
+      <xs:enumeration value="AK" />
+      <xs:enumeration value="AZ" />
+      <xs:enumeration value="AR" />
+      <xs:enumeration value="CA" />
+      <xs:enumeration value="CO" />
+      <xs:enumeration value="CT" />
+      <xs:enumeration value="DE" />
+      <xs:enumeration value="FL" />
+      <xs:enumeration value="GA" />
+      <xs:enumeration value="HI" />
+      <xs:enumeration value="ID" />
+      <xs:enumeration value="IL" />
+      <xs:enumeration value="IN" />
+      <xs:enumeration value="IA" />
+      <xs:enumeration value="KS" />
+      <xs:enumeration value="KY" />
+      <xs:enumeration value="LA" />
+      <xs:enumeration value="ME" />
+      <xs:enumeration value="MD" />
+      <xs:enumeration value="MA" />
+      <xs:enumeration value="MI" />
+      <xs:enumeration value="MN" />
+      <xs:enumeration value="MS" />
+      <xs:enumeration value="MO" />
+      <xs:enumeration value="MT" />
+      <xs:enumeration value="NE" />
+      <xs:enumeration value="NV" />
+      <xs:enumeration value="NH" />
+      <xs:enumeration value="NJ" />
+      <xs:enumeration value="NM" />
+      <xs:enumeration value="NY" />
+      <xs:enumeration value="NC" />
+      <xs:enumeration value="ND" />
+      <xs:enumeration value="OH" />
+      <xs:enumeration value="OK" />
+      <xs:enumeration value="OR" />
+      <xs:enumeration value="PA" />
+      <xs:enumeration value="RI" />
+      <xs:enumeration value="SC" />
+      <xs:enumeration value="SD" />
+      <xs:enumeration value="TN" />
+      <xs:enumeration value="TX" />
+      <xs:enumeration value="UT" />
+      <xs:enumeration value="VT" />
+      <xs:enumeration value="VA" />
+      <xs:enumeration value="WA" />
+      <xs:enumeration value="WV" />
+      <xs:enumeration value="WI" />
+      <xs:enumeration value="WY" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CountryCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AF" />
+      <xs:enumeration value="AX" />
+      <xs:enumeration value="AL" />
+      <xs:enumeration value="DZ" />
+      <xs:enumeration value="AS" />
+      <xs:enumeration value="AD" />
+      <xs:enumeration value="AO" />
+      <xs:enumeration value="AI" />
+      <xs:enumeration value="AQ" />
+      <xs:enumeration value="AG" />
+      <xs:enumeration value="AR" />
+      <xs:enumeration value="AM" />
+      <xs:enumeration value="AW" />
+      <xs:enumeration value="AU" />
+      <xs:enumeration value="AT" />
+      <xs:enumeration value="AZ" />
+      <xs:enumeration value="BS" />
+      <xs:enumeration value="BH" />
+      <xs:enumeration value="BD" />
+      <xs:enumeration value="BB" />
+      <xs:enumeration value="BY" />
+      <xs:enumeration value="BZ" />
+      <xs:enumeration value="BE" />
+      <xs:enumeration value="BJ" />
+      <xs:enumeration value="BM" />
+      <xs:enumeration value="BT" />
+      <xs:enumeration value="BO" />
+      <xs:enumeration value="BA" />
+      <xs:enumeration value="BW" />
+      <xs:enumeration value="BV" />
+      <xs:enumeration value="BR" />
+      <xs:enumeration value="IO" />
+      <xs:enumeration value="BN" />
+      <xs:enumeration value="BG" />
+      <xs:enumeration value="BF" />
+      <xs:enumeration value="BI" />
+      <xs:enumeration value="KH" />
+      <xs:enumeration value="CM" />
+      <xs:enumeration value="CA" />
+      <xs:enumeration value="CV" />
+      <xs:enumeration value="KY" />
+      <xs:enumeration value="CF" />
+      <xs:enumeration value="TD" />
+      <xs:enumeration value="CL" />
+      <xs:enumeration value="CN" />
+      <xs:enumeration value="CX" />
+      <xs:enumeration value="CC" />
+      <xs:enumeration value="CO" />
+      <xs:enumeration value="KM" />
+      <xs:enumeration value="CG" />
+      <xs:enumeration value="CD" />
+      <xs:enumeration value="CK" />
+      <xs:enumeration value="CR" />
+      <xs:enumeration value="CI" />
+      <xs:enumeration value="HR" />
+      <xs:enumeration value="CU" />
+      <xs:enumeration value="CY" />
+      <xs:enumeration value="CZ" />
+      <xs:enumeration value="DK" />
+      <xs:enumeration value="DM" />
+      <xs:enumeration value="DO" />
+      <xs:enumeration value="DJ" />
+      <xs:enumeration value="EC" />
+      <xs:enumeration value="EG" />
+      <xs:enumeration value="SV" />
+      <xs:enumeration value="GQ" />
+      <xs:enumeration value="ER" />
+      <xs:enumeration value="EE" />
+      <xs:enumeration value="ET" />
+      <xs:enumeration value="FK" />
+      <xs:enumeration value="FO" />
+      <xs:enumeration value="FJ" />
+      <xs:enumeration value="FI" />
+      <xs:enumeration value="FR" />
+      <xs:enumeration value="GF" />
+      <xs:enumeration value="PF" />
+      <xs:enumeration value="TF" />
+      <xs:enumeration value="GA" />
+      <xs:enumeration value="GM" />
+      <xs:enumeration value="GE" />
+      <xs:enumeration value="DE" />
+      <xs:enumeration value="GH" />
+      <xs:enumeration value="GI" />
+      <xs:enumeration value="GR" />
+      <xs:enumeration value="GL" />
+      <xs:enumeration value="GD" />
+      <xs:enumeration value="GP" />
+      <xs:enumeration value="GU" />
+      <xs:enumeration value="GT" />
+      <xs:enumeration value="GG" />
+      <xs:enumeration value="GN" />
+      <xs:enumeration value="GW" />
+      <xs:enumeration value="GY" />
+      <xs:enumeration value="HT" />
+      <xs:enumeration value="HM" />
+      <xs:enumeration value="HN" />
+      <xs:enumeration value="HK" />
+      <xs:enumeration value="HU" />
+      <xs:enumeration value="IS" />
+      <xs:enumeration value="IN" />
+      <xs:enumeration value="ID" />
+      <xs:enumeration value="IR" />
+      <xs:enumeration value="IQ" />
+      <xs:enumeration value="IE" />
+      <xs:enumeration value="IL" />
+      <xs:enumeration value="IM" />
+      <xs:enumeration value="IT" />
+      <xs:enumeration value="JM" />
+      <xs:enumeration value="JP" />
+      <xs:enumeration value="JE" />
+      <xs:enumeration value="JO" />
+      <xs:enumeration value="KZ" />
+      <xs:enumeration value="KE" />
+      <xs:enumeration value="KI" />
+      <xs:enumeration value="KP" />
+      <xs:enumeration value="KR" />
+      <xs:enumeration value="KW" />
+      <xs:enumeration value="KG" />
+      <xs:enumeration value="LA" />
+      <xs:enumeration value="LV" />
+      <xs:enumeration value="LB" />
+      <xs:enumeration value="LS" />
+      <xs:enumeration value="LR" />
+      <xs:enumeration value="LY" />
+      <xs:enumeration value="LI" />
+      <xs:enumeration value="LT" />
+      <xs:enumeration value="LU" />
+      <xs:enumeration value="MO" />
+      <xs:enumeration value="MK" />
+      <xs:enumeration value="MG" />
+      <xs:enumeration value="MW" />
+      <xs:enumeration value="MY" />
+      <xs:enumeration value="MV" />
+      <xs:enumeration value="ML" />
+      <xs:enumeration value="MT" />
+      <xs:enumeration value="MH" />
+      <xs:enumeration value="MR" />
+      <xs:enumeration value="MU" />
+      <xs:enumeration value="MQ" />
+      <xs:enumeration value="YT" />
+      <xs:enumeration value="MX" />
+      <xs:enumeration value="FM" />
+      <xs:enumeration value="MD" />
+      <xs:enumeration value="MC" />
+      <xs:enumeration value="MN" />
+      <xs:enumeration value="ME" />
+      <xs:enumeration value="MS" />
+      <xs:enumeration value="MA" />
+      <xs:enumeration value="MZ" />
+      <xs:enumeration value="MM" />
+      <xs:enumeration value="NA" />
+      <xs:enumeration value="NR" />
+      <xs:enumeration value="NP" />
+      <xs:enumeration value="NL" />
+      <xs:enumeration value="NC" />
+      <xs:enumeration value="NZ" />
+      <xs:enumeration value="NI" />
+      <xs:enumeration value="NE" />
+      <xs:enumeration value="NG" />
+      <xs:enumeration value="NU" />
+      <xs:enumeration value="NO" />
+      <xs:enumeration value="NF" />
+      <xs:enumeration value="MP" />
+      <xs:enumeration value="OM" />
+      <xs:enumeration value="PK" />
+      <xs:enumeration value="PW" />
+      <xs:enumeration value="PS" />
+      <xs:enumeration value="PA" />
+      <xs:enumeration value="PG" />
+      <xs:enumeration value="PY" />
+      <xs:enumeration value="PE" />
+      <xs:enumeration value="PH" />
+      <xs:enumeration value="PN" />
+      <xs:enumeration value="PL" />
+      <xs:enumeration value="PT" />
+      <xs:enumeration value="PR" />
+      <xs:enumeration value="QA" />
+      <xs:enumeration value="RE" />
+      <xs:enumeration value="RO" />
+      <xs:enumeration value="RU" />
+      <xs:enumeration value="RW" />
+      <xs:enumeration value="BL" />
+      <xs:enumeration value="SH" />
+      <xs:enumeration value="KN" />
+      <xs:enumeration value="LC" />
+      <xs:enumeration value="MF" />
+      <xs:enumeration value="PM" />
+      <xs:enumeration value="VC" />
+      <xs:enumeration value="WS" />
+      <xs:enumeration value="SM" />
+      <xs:enumeration value="ST" />
+      <xs:enumeration value="SA" />
+      <xs:enumeration value="SN" />
+      <xs:enumeration value="RS" />
+      <xs:enumeration value="SC" />
+      <xs:enumeration value="SL" />
+      <xs:enumeration value="SG" />
+      <xs:enumeration value="SK" />
+      <xs:enumeration value="SI" />
+      <xs:enumeration value="SB" />
+      <xs:enumeration value="SO" />
+      <xs:enumeration value="ZA" />
+      <xs:enumeration value="GS" />
+      <xs:enumeration value="ES" />
+      <xs:enumeration value="LK" />
+      <xs:enumeration value="SD" />
+      <xs:enumeration value="SR" />
+      <xs:enumeration value="SJ" />
+      <xs:enumeration value="SZ" />
+      <xs:enumeration value="SY" />
+      <xs:enumeration value="SE" />
+      <xs:enumeration value="CH" />
+      <xs:enumeration value="TW" />
+      <xs:enumeration value="TJ" />
+      <xs:enumeration value="TZ" />
+      <xs:enumeration value="TH" />
+      <xs:enumeration value="TL" />
+      <xs:enumeration value="TG" />
+      <xs:enumeration value="TK" />
+      <xs:enumeration value="TO" />
+      <xs:enumeration value="TT" />
+      <xs:enumeration value="TN" />
+      <xs:enumeration value="TR" />
+      <xs:enumeration value="TC" />
+      <xs:enumeration value="TM" />
+      <xs:enumeration value="TV" />
+      <xs:enumeration value="UG" />
+      <xs:enumeration value="UA" />
+      <xs:enumeration value="AE" />
+      <xs:enumeration value="GB" />
+      <xs:enumeration value="US" />
+      <xs:enumeration value="UM" />
+      <xs:enumeration value="UY" />
+      <xs:enumeration value="UZ" />
+      <xs:enumeration value="VU" />
+      <xs:enumeration value="VA" />
+      <xs:enumeration value="VE" />
+      <xs:enumeration value="VN" />
+      <xs:enumeration value="VG" />
+      <xs:enumeration value="VI" />
+      <xs:enumeration value="WF" />
+      <xs:enumeration value="EH" />
+      <xs:enumeration value="YE" />
+      <xs:enumeration value="ZM" />
+      <xs:enumeration value="ZW" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="subOrg">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ipAddressRange">
+    <xs:sequence>
+      <xs:element name="startIp" type="xs:string"/>
+      <xs:element name="endIp" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!--
+    ===========================================================================
+      Resource:         agent
+      Method:           GET
+      Response Body:    agent
+      URI:              /api/v2/agent
+                            ===OR===
+                        /api/v2/agent/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         agent
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/agent/{id}      
+    ===========================================================================
+  -->
+  <xs:complexType name="agent">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="active" type="xs:boolean"/>
+      <xs:element name="platform" type="PlatformType"/>
+      <xs:element name="agentHost" type="xs:string"/>
+      <xs:element name="password" type="xs:string"/>
+      <xs:element name="proxyHost" type="xs:string"/>
+      <xs:element name="proxyPort" type="xs:int"/>
+      <xs:element name="proxyUser" type="xs:string"/>
+      <xs:element name="proxyPassword" type="xs:string"/>
+      <xs:element name="agentVersion" type="xs:string"/>
+      <xs:element name="upgradeStatus" type="xs:string"/>
+      <xs:element name="lastUpgraded" type="xs:dateTime"/>
+      <xs:element name="lastUpgradeCheck" type="xs:dateTime"/>
+      <xs:element name="lastStatusChange" type="xs:dateTime"/>
+      <xs:element name="packages" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="agentConfigs" type="agentConfig" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="configUpdateTime" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="PlatformType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="win32" />
+      <xs:enumeration value="linux32" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="agentConfig">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="subType" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+      <xs:element name="customized" type="xs:boolean"/>
+      <xs:element name="overridden" type="xs:boolean"/>
+      <xs:element name="defaultValue" type="xs:string"/>
+      <xs:element name="platform" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!--
+    ===========================================================================
+      Resource:         connection
+      Method:           GET
+      Response Body:    connection
+      URI:              /api/v2/connection
+                            ===OR===
+                        /api/v2/connection/{id}
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         connection
+      Method:           GET
+      Response Body:    connListItem
+      URI:              /api/v2/connection/target/<id>
+                            ===OR===
+                        /api/v2/connection/source/<id>
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         field
+      Method:           GET
+      Response Body:    connListItem
+      URI:              /api/v2/connection/target/<id>/field/<objectName>
+                            ===OR===
+                        /api/v2/connection/source/<id>/field/<objectName>
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         connection
+      Method:           GET
+      Response Body:    connection
+      URI:              /api/v2/connection/search?agentId=<agentId>&uiType=<uiType>
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         connection
+      Method:           POST
+      Request Body:     connection
+                            name, description, type, username, password,
+                            securityToken, host, port, database, schema,
+                            instanceName, codepage, dateFormat, remoteDirectory,
+                            serviceUrl, stsUrl, authenticationType, accountNumber,
+                            organizationName, languageCode, clientCode, domain, timeout,
+                            trustCertificatesFile, certificateFile, certificateFilePassword,
+                            certificateFileType, privateKeyFile, privateKeyPassword,
+                            privateKeyFileType, agentId, connParams (optional)
+      Response Body:    connection
+      URI:              /api/v2/connection
+                            ===OR===
+                        /api/v2/connection/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         connection
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/connection/{id}      
+    ===========================================================================
+  -->
+  <xs:complexType name="connection">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="agentId" type="xs:string" nillable="true"/>
+      <xs:element name="instanceName" type="xs:string" nillable="true"/>
+      <xs:element name="host" type="xs:string" nillable="true"/>
+      <xs:element name="escapeChar" type="xs:string" nillable="true"/>
+      <xs:element name="enclosingChar" type="xs:string" nillable="true"/>
+      <xs:element name="domain" type="xs:string" nillable="true"/>
+      <xs:element name="delimiter" type="xs:string" nillable="true"/>
+      <xs:element name="dateFormat" type="DateFormatType" nillable="true"/>
+      <xs:element name="database" type="xs:string" nillable="true"/>
+      <xs:element name="codepage" type="CodepageType" nillable="true"/>
+      <xs:element name="clientCode" type="xs:string" nillable="true"/>
+      <xs:element name="authenticationType" type="xs:string" nillable="true"/>
+      <xs:element name="adjustedJdbcHostName" type="xs:string" nillable="true"/>
+      <xs:element name="accountNumber" type="xs:string" nillable="true"/>
+      <xs:element name="languageCode" type="xs:string" nillable="true"/>
+      <xs:element name="persistedType" type="xs:string" nillable="true"/>
+      <xs:element name="remoteDirectory" type="xs:string" nillable="true"/>
+      <xs:element name="schema" type="xs:string" nillable="true"/>
+      <xs:element name="serviceUrl" type="xs:string" nillable="true"/>
+      <xs:element name="shortDescription" type="xs:string" nillable="true"/>
+      <xs:element name="type" type="ConnectionType"/>
+      <xs:element name="port" type="xs:int" nillable="true"/>
+      <xs:element name="password" type="xs:string" nillable="true"/>
+      <xs:element name="username" type="xs:string" nillable="true"/>
+      <xs:element name="securityToken" type="xs:string" nillable="true"/>
+      <xs:element name="stsUrl" type="xs:string" nillable="true"/>
+      <xs:element name="organizationName" type="xs:string" nillable="true"/>
+      <xs:element name="timeout" type="xs:int" nillable="true"/>
+      <xs:element name="trustCertificatesFile" type="xs:string" nillable="true"/>
+      <xs:element name="certificateFile" type="xs:string" nillable="true"/>
+      <xs:element name="certificateFilePassword" type="xs:string" nillable="true"/>
+      <xs:element name="certificateFileType" type="xs:string" nillable="true"/>
+      <xs:element name="privateKeyFile" type="xs:string" nillable="true"/>
+      <xs:element name="privateKeyPassword" type="xs:string" nillable="true"/>
+      <xs:element name="privateKeyFileType" type="xs:string" nillable="true"/>
+      <xs:element name="connParams" nillable="true">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="key" minOccurs="0" type="xs:string"/>
+                            <xs:element name="value" minOccurs="0" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+      </xs:element>        
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ConnectionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Oracle" />
+      <xs:enumeration value="SqlServer" />
+      <xs:enumeration value="SqlServer2005" />
+      <xs:enumeration value="SqlServer2008" />
+      <xs:enumeration value="MySQL" />
+      <xs:enumeration value="CSVFile" />
+      <xs:enumeration value="ODBC" />
+      <xs:enumeration value="MS_ACCESS" />
+      <xs:enumeration value="FTP" />
+      <xs:enumeration value="SFTP" />
+      <xs:enumeration value="SAP_ALE_IDoc_Reader" />
+      <xs:enumeration value="SAP_ALE_IDoc_Writer" />
+      <xs:enumeration value="WebServicesConsumer" />
+      <xs:enumeration value="OCOD" />
+      <xs:enumeration value="MSD" />
+      <xs:enumeration value="TOOLKIT" />      
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CodepageType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UTF-8" />
+      <xs:enumeration value="MS1252" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DateFormatType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MM/dd/yyyy" />
+      <xs:enumeration value="MM-dd-yyyy" />
+      <xs:enumeration value="MM.dd.yyyy" />
+      <xs:enumeration value="dd/MM/yyyy" />
+      <xs:enumeration value="dd-MM-yyyy" />
+      <xs:enumeration value="dd.MM.yyyy" />
+      <xs:enumeration value="MM/dd/yyyy HH:mm" />
+      <xs:enumeration value="MM-dd-yyyy HH:mm" />
+      <xs:enumeration value="MM.dd.yyyy HH:mm" />
+      <xs:enumeration value="dd/MM/yyyy HH:mm" />
+      <xs:enumeration value="dd-MM-yyyy HH:mm" />
+      <xs:enumeration value="dd.MM.yyyy HH:mm" />
+      <xs:enumeration value="MM/dd/yyyy HH:mm:ss" />
+      <xs:enumeration value="MM-dd-yyyy HH:mm:ss" />
+      <xs:enumeration value="MM.dd.yyyy HH:mm:ss" />
+      <xs:enumeration value="dd/MM/yyyy HH:mm:ss" />
+      <xs:enumeration value="dd-MM-yyyy HH:mm:ss" />
+      <xs:enumeration value="dd.MM.yyyy HH:mm:ss" />
+      <xs:enumeration value="yyyy-MM-dd" />
+      <xs:enumeration value="yyyy-MM-dd HH:mm" />
+      <xs:enumeration value="yyyy-MM-dd HH:mm:ss" />
+      <xs:enumeration value="yyyy-MM-ddTHH:mm:ss.SSSZ" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="connListItem">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!--
+    ===========================================================================
+      Resource:         schedule
+      Method:           GET
+      Response Body:    schedule
+      URI:              /api/v2/schedule
+                            ===OR===
+                        /api/v2/schedule/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         schedule
+      Method:           POST
+      Request Body:     schedule
+                            name, description(optional), startTime, endTime(optional),
+                            interval, frequency, rangeStartTime(optional),
+                            rangeEndTime(optional), mon(optional), tue(optional),
+                            wed(optional), thu(optional), fri(optional), sat(optional),
+                            sun(optional), weekDay(optional), dayOfMonth(optional),
+                            weekOfMonth(optional), dayOfWeek(optional)
+      Response Body:    schedule
+      URI:              /api/v2/schedule
+                            ===OR===
+                        /api/v2/schedule/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         schedule
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/schedule/{id}      
+    ===========================================================================
+  -->
+  <xs:complexType name="schedule">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="startTime" type="xs:dateTime"/>
+      <xs:element name="endTime" type="xs:dateTime" nillable="true"/>
+      <xs:element name="interval" type="ScheduleInterval"/>
+      <xs:element name="frequency" type="xs:int"/>
+      <xs:element name="rangeStartTime" type="xs:dateTime" nillable="true"/>
+      <xs:element name="rangeEndTime" type="xs:dateTime" nillable="true"/>
+      <xs:element name="sun" type="xs:boolean" nillable="true"/>
+      <xs:element name="mon" type="xs:boolean" nillable="true"/>
+      <xs:element name="tue" type="xs:boolean" nillable="true"/>
+      <xs:element name="wed" type="xs:boolean" nillable="true"/>
+      <xs:element name="thu" type="xs:boolean" nillable="true"/>
+      <xs:element name="fri" type="xs:boolean" nillable="true"/>
+      <xs:element name="sat" type="xs:boolean" nillable="true"/>
+      <xs:element name="weekDay" type="xs:boolean" nillable="true"/>
+      <xs:element name="dayOfMonth" type="xs:int" nillable="true"/>
+      <xs:element name="weekOfMonth" type="WeekOfMonth" nillable="true"/>
+      <xs:element name="dayOfWeek" type="DayOfWeek" nillable="true"/>
+      <xs:element name="timeZone" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ScheduleInterval">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="Minutely" />
+      <xs:enumeration value="Hourly" />
+      <xs:enumeration value="Daily" />
+      <xs:enumeration value="Weekly" />
+      <xs:enumeration value="Monthly" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DayOfWeek">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Day" />
+      <xs:enumeration value="Sunday" />
+      <xs:enumeration value="Monday" />
+      <xs:enumeration value="Tuesday" />
+      <xs:enumeration value="Wednesday" />
+      <xs:enumeration value="Thursday" />
+      <xs:enumeration value="Friday" />
+      <xs:enumeration value="Saturday" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="WeekOfMonth">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="First" />
+      <xs:enumeration value="Second" />
+      <xs:enumeration value="Third" />
+      <xs:enumeration value="Fourth" />
+      <xs:enumeration value="Last" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--
+    ===========================================================================
+      Resource:         job
+      Method:           POST
+      Request Body:     job
+                            taskId, taskType
+      Response Body:    -
+      URI:              /api/v2/job
+    ===========================================================================
+  -->
+  <xs:complexType name="job">
+    <xs:sequence>
+      <xs:element name="taskId" type="xs:string"/>
+      <xs:element name="taskType" type="JobType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="JobType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DLS" />
+      <xs:enumeration value="DSS" />
+      <xs:enumeration value="DRS" />
+      <xs:enumeration value="DQA" />
+      <xs:enumeration value="PCS" />
+      <xs:enumeration value="DNB_WORKFLOW" />
+      <xs:enumeration value="MTT" />
+      <xs:enumeration value="AVS" />
+      <xs:enumeration value="WORKFLOW" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!--
+    ===========================================================================
+      Resource:         activityLog
+      Method:           GET
+      Response Body:    activityLogEntry
+      URI:              /api/v2/activity/activityLog
+                            ===OR===
+                        /api/v2/activity/activityLog?rowLimit=<rowLimit>
+      
+    ===========================================================================
+  -->
+  <xs:complexType name="activityLogEntry">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="type" type="ServiceType"/>
+      <xs:element name="objectName" type="xs:string"/>
+      <xs:element name="runId" type="xs:long"/>
+      <xs:element name="startTime" type="xs:dateTime" nillable="true"/>
+      <xs:element name="endTime" type="xs:dateTime" nillable="true"/>
+      <xs:element name="state" type="xs:short"/>
+      <xs:element name="failedSourceRows" type="xs:long"/>
+      <xs:element name="successSourceRows" type="xs:long"/>
+      <xs:element name="failedTargetRows" type="xs:long"/>
+      <xs:element name="successTargetRows" type="xs:long"/>
+      <xs:element name="errorMsg" type="xs:string" nillable="true"/>
+      <xs:element name="entries" type="activityLogEntry" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ServiceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DSS" />
+      <xs:enumeration value="DRS" />
+      <xs:enumeration value="DQA" />
+      <xs:enumeration value="PCS" />
+      <xs:enumeration value="WORKFLOW" />
+      <xs:enumeration value="DNB_TASK" />
+      <xs:enumeration value="DNB_WORKFLOW" />
+      <xs:enumeration value="MTT" />
+      <xs:enumeration value="AVS" />
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <!--
+    ===========================================================================
+      Resource:         activityMonitor
+      Method:           GET
+      Response Body:    activityMonitor
+      URI:              /api/v2/activity/activityMonitor
+                                  ===OR===
+                        /api/v2/activity/activityMonitor?details=<true or false>
+      
+    ===========================================================================
+  -->
+  <xs:complexType name="activityMonitoryEntry">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="type" type="ServiceType"/>
+      <xs:element name="taskName" type="xs:string"/>
+      <xs:element name="objectName" type="xs:string" nillable="true"/>
+      <xs:element name="runId" type="xs:long"/>
+      <xs:element name="startTime" type="xs:dateTime" nillable="true"/>
+      <xs:element name="endTime" type="xs:dateTime" nillable="true"/>
+      <xs:element name="executionState" type="ExecutionState"/>
+      <xs:element name="failedSourceRows" type="xs:long"/>
+      <xs:element name="successSourceRows" type="xs:long"/>
+      <xs:element name="failedTargetRows" type="xs:long"/>
+      <xs:element name="successTargetRows" type="xs:long"/>
+      <xs:element name="errorMsg" type="xs:string" nillable="true"/>
+      <xs:element name="entries" type="activityMonitorEntry" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="ExecutionState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="INITIALIZED" />
+      <xs:enumeration value="RUNNING" />
+      <xs:enumeration value="STOPPING" />
+      <xs:enumeration value="COMPLETED" />
+      <xs:enumeration value="FAILED" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!--
+    ===========================================================================
+      Resource:         dnbWorkflow
+      Method:           GET
+      Response Body:    dnbWorkflow
+      URI:              /api/v2/dnbWorkflow
+                            ===OR===
+                        /api/v2/dnbWorkflow/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         dnbWorkflow
+      Method:           POST
+      Request Body:     dnbWorkflow
+                            uname, rowLimit(optional), partnerProfile(optional),
+                            companyCustomObject(optional), adminCustomObject(optional),
+                            leadCustomObject(optional), odbcUser(optional),
+                            connectionId, connectionId2(optional), scheduleId(optional)
+      Response Body:    dnbWorkflow
+      URI:              /api/v2/dnbWorkflow
+                            ===OR===
+                        /api/v2/dnbWorkflow/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         dnbWorkflow
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/dnbWorkflow/{id}      
+    ===========================================================================
+  -->
+  <xs:complexType name="dnbWorkflow">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="uname" type="DnbUnameType"/>
+      <xs:element name="batchName" type="xs:string"/>
+      <xs:element name="batchType" type="DnbBatchType"/>
+      <xs:element name="applicationType" type="DnbApplicationType"/>
+      <xs:element name="objectType" type="DnbObjectType"/>
+      <xs:element name="rowLimit" type="xs:int"/>
+      <xs:element name="partnerProfile" type="xs:string"/>
+      <xs:element name="companyCustomObject" type="xs:string"/>
+      <xs:element name="adminCustomObject" type="xs:string"/>
+      <xs:element name="leadCustomObject" type="xs:string"/>
+      <xs:element name="odbcUser" type="xs:string"/>
+      <xs:element name="connections" type="connection" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="schedule" type="schedule"/>
+      <xs:element name="dnbTasks" type="dnbTask" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="DnbBatchType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NewBatch" />
+      <xs:enumeration value="RefreshBatch" />
+      <xs:enumeration value="ImportBatch" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DnbApplicationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Salesforce" />
+      <xs:enumeration value="OCOD" />
+      <xs:enumeration value="OSC" />
+      <xs:enumeration value="MSD" />
+      <xs:enumeration value="SAPCRM" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DnbObjectType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Account" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DnbUnameType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NewBatchSalesforceAccount" />
+      <xs:enumeration value="NewBatchOCODAccount" />
+      <xs:enumeration value="NewBatchOSCAccount" />
+      <xs:enumeration value="NewBatchMSDAccount" />
+      <xs:enumeration value="NewBatchSAPCRMAccount" />
+      <xs:enumeration value="RefreshBatchSalesforceAccount" />
+      <xs:enumeration value="RefreshBatchOCODAccount" />
+      <xs:enumeration value="RefreshBatchOSCAccount" />
+      <xs:enumeration value="RefreshBatchMSDAccount" />
+      <xs:enumeration value="RefreshBatchSAPCRMAccount" />
+      <xs:enumeration value="ImportBatchSalesforceAccount" />
+      <xs:enumeration value="ImportBatchOCODAccount" />
+      <xs:enumeration value="ImportBatchOSCAccount" />
+      <xs:enumeration value="ImportBatchMSDAccount" />
+      <xs:enumeration value="ImportBatchSAPCRMAccount" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="dnbTask">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="orderNum" type="xs:long" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!--
+    ===========================================================================
+      Resource:         mttask
+      Method:           GET
+      Response Body:    mtTask
+      URI:              /api/v2/mttask/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         mttask
+      Method:           POST
+      Request Body:     mtTask
+                            errorTaskEmail(optional)
+                                emails
+                            successTaskEmail(optional)
+                                emails
+                            warningTaskEmail(optional)
+                                emails
+                            parameters
+                                name, type, indx(optional), text(optional),
+                                label(optional), description(optional), 
+                                sourceConnectionId(optional), targetConnectionId(optional),
+                                lookupConnectionId(optional), sourceObject(optional),
+                                targetObject(optional), lookupObject(optional), 
+                                newFlatFile(optional), flatFileName(optional), truncateTarget(optional),
+                                srcFFAttrs(optional), tgtFFAttrs(optional), lkpFFAttrs(optional),
+                                customFuncCfg(optional),
+                                tgtFieldRefs(optional)
+                            agentId, masterTemplateId, scheduleId(optional) 
+      Response Body:    mtTask
+      URI:              /api/v2/mttask
+                            ===OR===
+                        /api/v2/mttask/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         mttask
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/mttask/{id}      
+    ===========================================================================
+  -->
+  <xs:complexType name="mtTask">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="errorTaskEmail" type="taskEmail" nillable="true"/>
+      <xs:element name="successTaskEmail" type="taskEmail" nillable="true"/>
+      <xs:element name="warningTaskEmail" type="taskEmail" nillable="true"/>
+      <xs:element name="parameters" type="mtTaskParameter" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="agentId" type="xs:string"/>
+      <xs:element name="lastRunTime" type="xs:dateTime"/>
+      <xs:element name="masterTemplateId" type="xs:string"/>
+      <xs:element name="scheduleId" type="xs:string" nillable="true"/>      
+      <xs:element name="shortDescription" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="taskEmail">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="emails" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mtTaskParameter">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="indx" type="xs:int" nillable="true"/>
+      <xs:element name="text" type="xs:string" nillable="true"/>
+      <xs:element name="label" type="xs:string" nillable="true"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="sourceConnectionId" type="xs:string" nillable="true"/>
+      <xs:element name="targetConnectionId" type="xs:string" nillable="true"/>
+      <xs:element name="lookupConnectionId" type="xs:string" nillable="true"/>
+      <xs:element name="sourceObject" type="xs:string" nillable="true"/>
+      <xs:element name="targetObject" type="xs:string" nillable="true"/>
+      <xs:element name="lookupObject" type="xs:string" nillable="true"/>
+      <xs:element name="newFlatFile" type="xs:boolean" nillable="true"/>
+      <xs:element name="flatFileName" type="xs:string" nillable="true"/>
+      <xs:element name="truncateTarget" type="xs:boolean" nillable="true"/>
+      <xs:element name="srcFFAttrs" type="flatFileAttrs" nillable="true"/>
+      <xs:element name="tgtFFAttrs" type="flatFileAttrs" nillable="true"/>
+      <xs:element name="lkpFFAttrs" type="flatFileAttrs" nillable="true"/>
+      <xs:element name="customFuncCfg" type="customFuncConfig" nillable="true"/>
+	  <xs:element name="showBusinessNames" type="xs:boolean" nillable="true"/>
+      <xs:element name="tgtFieldRefs" nillable="true">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="key" minOccurs="0" type="xs:string"/>
+                            <xs:element name="value" minOccurs="0" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+      </xs:element>      
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="flatFileAttrs">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="delimiter" type="xs:string"/>
+      <xs:element name="textQualifier" type="xs:string"/>
+      <xs:element name="escapeChar" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="customFuncConfig">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="connections" type="pcsConnection" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pcsConnection">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="subType" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="connectionId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!--
+    ===========================================================================
+      Resource:         fileRecord
+      Method:           POST
+      Response Body:    fileRecord
+      URI:              /api/v2/fileRecord?file=<file>&type=<type>
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         fileRecord
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/fileRecord/{id}      
+    ===========================================================================
+  -->
+  <xs:complexType name="fileRecord">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="size" type="xs:int"/>
+      <xs:element name="attachTime" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!--
+    ===========================================================================
+      Resource:         masterTemplate
+      Method:           GET
+      Response Body:    masterTemplate
+      URI:              /api/v2/masterTemplate
+                            ===OR===
+                        /api/v2/masterTemplate/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         masterTemplate
+      Method:           POST
+      Request Body:     masterTemplate
+                            name, description(optional), diFileRecordId, templateImageId,
+                            parameters
+                                name, label, type, description, customFuncId,
+                                uiProperties (key-value pair)
+      Response Body:    masterTemplate
+      URI:              /api/v2/masterTemplate
+                            ===OR===
+                        /api/v2/masterTemplate/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         masterTemplate
+      Method:           GET
+      Request Body:     -
+      Response Body:    mtTask
+      URI:              /api/v2/masterTemplate/{id}/tasks      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         masterTemplate
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/masterTemplate/{id}      
+    ===========================================================================
+  -->
+  <xs:complexType name="masterTemplate">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="diFileRecordId" type="xs:string"/>
+      <xs:element name="templateImageId" type="xs:string"/>
+      <xs:element name="parameters" type="mtParameter" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mtParameter">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="label" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="customFuncId" type="xs:string"/>
+      <xs:element name="uiProperties" nillable="true">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="key" type="UiPropertyType" minOccurs="0"/>
+                            <xs:element name="value" minOccurs="0" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="sessionAttrs" nillable="true">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="key" type="SessionAttrsType" minOccurs="0"/>
+                            <xs:element name="value" minOccurs="0" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="UiPropertyType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="logcnx" />
+      <xs:enumeration value="order" />
+      <xs:enumeration value="wizstep" />
+      <xs:enumeration value="default" />
+      <xs:enumeration value="editable" />
+      <xs:enumeration value="paramtype" />
+      <xs:enumeration value="Condition" />
+      <xs:enumeration value="Expression" />
+      <xs:enumeration value="Field" />
+      <xs:enumeration value="Fieldmap" />
+      <xs:enumeration value="lefttitle" />
+      <xs:enumeration value="righttitle" />
+      <xs:enumeration value="cnxtype" />
+      <xs:enumeration value="leftfs" />
+      <xs:enumeration value="rightfs" />
+      <xs:enumeration value="leftfilter" />
+      <xs:enumeration value="rightfilter" />
+      <xs:enumeration value="staticlist" />
+      <xs:enumeration value="visible" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SessionAttrsType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Write Backward Compatible Session Log File" />
+      <xs:enumeration value="Session Log File Name" />
+      <xs:enumeration value="Session Log File Directory" />
+      <xs:enumeration value="$Source Connection Value" />
+      <xs:enumeration value="$Target Connection Value" />
+      <xs:enumeration value="Treat Source Rows as" />
+      <xs:enumeration value="Commit Type" />
+      <xs:enumeration value="Commit Interval" />
+      <xs:enumeration value="Commit on End of File" />
+      <xs:enumeration value="Rollback Transactions on Errors" />
+      <xs:enumeration value="Java Classpath" />
+      <xs:enumeration value="DTM Buffer Size" />
+      <xs:enumeration value="Incremental Aggregation" />
+      <xs:enumeration value="Reinitialize Aggregate Cache" />
+      <xs:enumeration value="Enable High Precision" />
+      <xs:enumeration value="Session Retry on Deadlock" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!--
+    ===========================================================================
+      Resource:         customFunc
+      Method:           GET
+      Response Body:    customFunc
+      URI:              /api/v2/customFunc
+                            ===OR===
+                        /api/v2/customFunc/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         customFunc
+      Method:           POST
+      Request Body:     customFunc
+                            name, description(optional), mappletName, active,
+                            mappletXmlFile
+      Response Body:    customFunc
+      URI:              /api/v2/customFunc
+                            ===OR===
+                        /api/v2/customFunc/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         customFunc
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/customFunc/{id}      
+    ===========================================================================
+  -->
+  <xs:complexType name="customFunc">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="mappletName" type="xs:string"/>
+      <xs:element name="active" type="xs:boolean"/>
+      <xs:element name="mappletXmlFile" type="xs:string"/>
+      <xs:element name="inputs" type="field" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="outputs" type="field" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="connections" type="pcsConnection" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="field">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="uniqueName" type="xs:string"/>
+      <xs:element name="label" type="xs:string"/>
+      <xs:element name="parentObject" type="xs:string"/>
+      <xs:element name="precision" type="xs:int"/>
+      <xs:element name="scale" type="xs:int"/>
+      <xs:element name="columnIndex" type="xs:int"/>
+      <xs:element name="isKey" type="xs:boolean"/>
+      <xs:element name="isExternalId" type="xs:boolean"/>
+      <xs:element name="isNullable" type="xs:boolean"/>
+      <xs:element name="isUnique" type="xs:boolean"/>
+      <xs:element name="isCreateable" type="xs:boolean"/>
+      <xs:element name="isUpdateable" type="xs:boolean"/>
+      <xs:element name="isFilterable" type="xs:boolean"/>
+      <xs:element name="relatedInfos" type="fieldRelatedInfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="fieldRelatedInfo">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="referenceObject" type="xs:string"/>
+      <xs:element name="relationshipName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!--
+    ===========================================================================
+      Resource:         workflow
+      Method:           GET
+      Response Body:    workflow
+      URI:              /api/v2/workflow
+                            ===OR===
+                        /api/v2/workflow/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         workflow
+      Method:           POST
+      Request Body:     workflow
+                            errorTaskEmail(optional)
+                                emails
+                            successTaskEmail(optional)
+                                emails
+                            warningTaskEmail(optional)
+                                emails
+                            name, description(optional),
+                            tasks
+                                taskId, type, name, stopOnError(optional)
+                            scheduleId(optional) 
+      Response Body:    workflow
+      URI:              /api/v2/workflow
+                            ===OR===
+                        /api/v2/workflow/{id}      
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         workflow
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/workflow/{id}      
+    ===========================================================================
+  -->
+  <xs:complexType name="workflow">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="errorTaskEmail" type="taskEmail" nillable="true"/>
+      <xs:element name="successTaskEmail" type="taskEmail" nillable="true"/>
+      <xs:element name="warningTaskEmail" type="taskEmail" nillable="true"/>
+      <xs:element name="scheduleId" type="xs:string"/>
+      <xs:element name="tasks" type="workflowTask" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="workflowTask">
+    <xs:sequence>
+      <xs:element name="taskId" type="xs:string"/>
+      <xs:element name="type" type="WorkflowTaskType"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="stopOnError" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="WorkflowTaskType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DLS" />
+      <xs:enumeration value="DSS" />
+      <xs:enumeration value="DRS" />
+      <xs:enumeration value="DQA" />
+      <xs:enumeration value="PCS" />
+      <xs:enumeration value="MTT" />
+      <xs:enumeration value="AVS" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!--
+    ===========================================================================
+      Resource:         marketObjectLink
+      Method:           POST
+      Request Body:     marketObjectLink
+                            marketObjectId, check, updateOption
+      Response Body:    -
+      URI:              /api/v2/marketObjectLink
+      Notes:            Install/Link market object with customer org. 
+                        marketObjectId - identifier of market object 
+                        check(optional) - do only check/validate before actual installation/linking. 
+                        updateOption(optional) - what to do if old version of market object is used, values see below "UpdateOptions" enum
+    ===========================================================================
+  -->
+  <!--
+    ===========================================================================
+      Resource:         marketObjectLink
+      Method:           DELETE
+      Response Body:    -
+      URI:              /api/v2/marketObjectLink?marketObjectId={marketObjectId}&updateOption={updateOption} 
+      Notes:            Delete/Unlink market object with customer org. 
+                        marketObjectId - identifier of market object 
+                        updateOption(optional) - what to do if old version of market object is used, values see below "UpdateOptions" enum    
+    ===========================================================================
+  -->
+
+  <xs:simpleType name="UpdateOptions">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[
+        Enum constant sets up behavor for existing objects
+        ]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DELETE_EXISTING_OBJECTS" />
+      <xs:enumeration value="UPDATE_EXISTING_OBJECTS" />
+      <xs:enumeration value="EXCEPTION_IF_IS_USED" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!--
+    ===========================================================================
+      Resource:         marketObject
+      Method:           GET
+      Response Body:    -
+      URI:              /api/v2/marketObject?published={published}&installed={installed}
+      Notes:            Return list of market objects according passed criterias    
+                        published - if 'true' then return list of published market object by user org
+                        installed - if 'true' then return list of installed market objects   
+    ===========================================================================
+  -->
+  <xs:complexType name="marketObject">
+    <xs:sequence>
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[
+            Market object descriptor
+          ]]>
+        </xs:documentation>
+      </xs:annotation>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="orgId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string" nillable="true"/>
+      <xs:element name="createTime" type="xs:dateTime"/>
+      <xs:element name="updateTime" type="xs:dateTime"/>
+      <xs:element name="createdBy" type="xs:string"/>
+      <xs:element name="updatedBy" type="xs:string"/>
+      <xs:element name="lastVersion" type="xs:string"/>
+      <xs:element name="originObjectId" type="xs:string"/>
+      <xs:element name="revokeTime" type="xs:dateTime"/>
+      <xs:element name="paid" type="xs:boolean"/>
+      <xs:element name="accessType" type="xs:string"/>
+      <xs:element name="sharedWith" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

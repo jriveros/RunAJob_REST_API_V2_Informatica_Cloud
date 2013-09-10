@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <username>myuser@informatica.com</username>
+  <password>mypassword</password>
+  <baseurl>https://app.informaticaondemand.com</baseurl>
+  <port></port>
+  <doDebug>true</doDebug>
+</root>

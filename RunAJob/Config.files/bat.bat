@@ -1,0 +1,10 @@
+echo off
+RunAJob	0006D40I0000000000IF My_Task_tsk DSS true
+if %ERRORLEVEL% EQU 1 RunAJob	0006D40I0000000000IF My_Task_tsk DSS true
+if %ERRORLEVEL% EQU 3 RunAJob	0006D40I0000000000IF My_Task_tsk DSS true
+if %ERRORLEVEL% EQU 2 RunAJob	0006D40I0000000000IF My_Task_tsk DSS true
+if %ERRORLEVEL% EQU 999 echo "Failed to run the task"
+echo %ERRORLEVEL%
+pause
+
+
