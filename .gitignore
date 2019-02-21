@@ -213,3 +213,7 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+/.vs/RunAJob/v15/Server/sqlite3/db.lock
+/.vs/RunAJob/v15/Server/sqlite3/storage.ide
+/.vs/RunAJob/v15/Server/sqlite3/storage.ide-shm
+/.vs/RunAJob/v15/Server/sqlite3/storage.ide-wal
